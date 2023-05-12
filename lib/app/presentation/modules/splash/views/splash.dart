@@ -60,6 +60,7 @@ class _SplashViewState extends State<SplashView> {
     } else {
       // Navigator.pushReplacementNamed(context, Routes.noInternet);
       print("❌ No hay internet");
+      _goTo(Routes.noInternet);
     }
   }
 
