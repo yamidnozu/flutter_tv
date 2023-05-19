@@ -1,13 +1,17 @@
-import 'dart:io'; // No es compatible con aplicaciones web
+// No es compatible con aplicaciones web
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:tv/app/domain/repositories/connectivity_repository.dart';
+import 'package:tv/app/services/remote/internet_checker.dart';
 
 class ConnectivityRepositoryImpl implements ConnectivityRepository {
   final Connectivity _connectivity;
+  final InternetChecker _internetChecker;
 
   ConnectivityRepositoryImpl(
-      this._connectivity); // La solución para que sea testeable es esta, inyectar la dependencia en el constructor. En el main.dart se crea una instancia de Connectivity y se pasa como parametro
+    this._connectivity,
+    this._internetChecker,
+  ); // La solución para que sea testeable es esta, inyectar la dependencia en el constructor. En el main.dart se crea una instancia de Connectivity y se pasa como parametro
 
   @override
   Future<bool> get hasInternet async {
@@ -18,16 +22,6 @@ class ConnectivityRepositoryImpl implements ConnectivityRepository {
       return Future.value(false);
     }
 
-    return _hasInternet();
-  }
-
-  Future<bool> _hasInternet() async {
-    // Tenemos que garantizar que tenemos internet.
-    try {
-      final list = await InternetAddress.lookup('google.com');
-      return list.isNotEmpty && list.first.rawAddress.isNotEmpty;
-    } catch (e) {
-      return false;
-    }
+    return _internetChecker.hasInternet();
   }
 }

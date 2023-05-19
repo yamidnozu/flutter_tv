@@ -5,13 +5,14 @@ import 'package:tv/app/data/repositories_implementation/connectivity_repositorie
 import 'package:tv/app/domain/repositories/authentication_repository.dart';
 import 'package:tv/app/domain/repositories/connectivity_repository.dart';
 import 'package:tv/app/my_app.dart';
+import 'package:tv/app/services/remote/internet_checker.dart';
 
 void main() {
   runApp(
     Injector(
       child: const MyApp(),
       authenticationRepository: AuthenticationRepositoryImpl(),
-      connectivityRepository: ConnectivityRepositoryImpl(Connectivity()),
+      connectivityRepository: ConnectivityRepositoryImpl(Connectivity(), InternetChecker()),
     ),
   );
 }
